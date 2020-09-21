@@ -44,8 +44,11 @@ class RobotUser {
       console.log("Declining rated challenge from " + challenge.challenger.id);
       const response = await this.api.declineChallenge(challenge.id);
       console.log("Declined", response.data || response);
-    }
-    else {
+    } else if (challenge.variant.key != "standard") {
+      console.log("Declining non-standard challenge from " + challenge.challenger.id);
+      const response = await this.api.declineChallenge(challenge.id);
+      console.log("Declined", response.data || response);
+    } else {
       console.log("Accepting unrated challenge from " + challenge.challenger.id);
       const response = await this.api.acceptChallenge(challenge.id);
       console.log("Accepted", response.data || response);
