@@ -13,7 +13,7 @@ class Game {
   /**
    * Initialise with interface to lichess.
    */
-  constructor(api, name, player) {
+  constructor(api, name, player, engine) {
     this.api = api;
     this.name = name;
     this.player = player;
@@ -36,6 +36,11 @@ class Game {
   }
 
   handler(event) {
+    if (event.status != "created" && event.status != "started") {
+      console.log("Game finished");
+      this.engine.stop();
+    }
+
     switch (event.type) {
       case "chatLine":
         this.handleChatLine(event);

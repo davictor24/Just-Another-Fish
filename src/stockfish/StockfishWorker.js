@@ -15,6 +15,10 @@ class StockfishWorker {
       .then(() => console.log("Setup complete"));
   }
 
+  stop() {
+    this.worker.postMessage("quit");
+  }
+
   setupHash() {
     return new Promise(resolve => { 
       this.worker.onmessage = data => {
@@ -28,7 +32,7 @@ class StockfishWorker {
       this.worker.postMessage("isready");
     });
   }
-  
+
   bestMove(moves, times, incs) {
     return new Promise(resolve => { 
       this.worker.onmessage = data => {
