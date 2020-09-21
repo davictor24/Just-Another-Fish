@@ -1,0 +1,31 @@
+{
+  "name": "just-another-fish",
+  "version": "1.0.0",
+  "description": "Lichess Bot. Plays with Stockfish.",
+  "main": "src/Main.js",
+  "scripts": {
+    "test": "nyc tap test/*",
+    "start": "node -r esm src/Main.js",
+    "deps": "npx yarn-check --skip-unused"
+  },
+  "keywords": [],
+  "author": "Victor Durojaiye",
+  "license": "ISC",
+  "devDependencies": {
+    "coveralls": "^3.0.11",
+    "moxios": "^0.4.0",
+    "nock": "^10.0.6",
+    "nyc": "^15.0.1",
+    "sinon": "^9.0.2",
+    "tap": "^14.10.7",
+    "tape": "^4.13.2"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "chess.js": "^0.10.3",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "ndjson": "^1.5.0",
+    "oboe": "^2.1.5"
+  }
+}
