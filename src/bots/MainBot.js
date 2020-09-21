@@ -1,17 +1,23 @@
 import ChessUtils from "../utils/ChessUtils";
 
 class MainBot {
-  getNextMove(moves) {
+  async getNextMove(moves, engine, times, incs) {
     const chess = new ChessUtils();
-    chess.applyMoves(moves);
-    const legalMoves = chess.legalMoves();
-    if (legalMoves.length) {
-      return chess.pickRandomMove(legalMoves);
+    if (engine == undefined || times == undefined || incs == undefined) {
+      chess.applyMoves(moves);
+      const legalMoves = chess.legalMoves();
+      if (legalMoves.length) {
+        return chess.pickRandomMove(legalMoves);
+      }
+    } else {
+      let bestMove = await engine.bestMove(moves, times, incs);
+      console.log(bestMove);
+      return bestMove;
     }
   }
 
   getReply(chat) {
-    return "hi";
+    return "";
   }
 }
 

@@ -6,7 +6,7 @@ const player = new MainBot();
 "use strict";
 
 test("getReply", function(t) {
-  t.equal(player.getReply({}), "hi", "says hi");
+  t.equal(player.getReply({}), "", "says nothing");
   t.end();
 });
 

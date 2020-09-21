@@ -2976,6 +2976,11 @@ stack-utils@^1.0.2:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
+stockfish@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/stockfish/-/stockfish-10.0.2.tgz#f4ba642f27e323b3adee9396d0ccfaf32553af18"
+  integrity sha512-MuDhChwRwFe4nkn5OKuDj2byf4lTVlpJK47D99kNi7Qr1QlM8PIi940AVdF4SMmFQnPtyYeT2xzlX69d5v8WQg==
+
 string-length@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/string-length/-/string-length-3.1.0.tgz#107ef8c23456e187a8abd4a61162ff4ac6e25837"
