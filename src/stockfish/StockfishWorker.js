@@ -18,6 +18,7 @@ class StockfishWorker {
   stop() {
     this.worker.postMessage("stop");
     this.worker.postMessage("quit");
+    console.log("Engine stopped");
   }
 
   setupHash() {
