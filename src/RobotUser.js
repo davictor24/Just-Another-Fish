@@ -12,6 +12,7 @@ class RobotUser {
   constructor(api, player) {
     this.api = api;
     this.player = player;
+    this.games = {}
   }
 
   async start() {
@@ -29,14 +30,21 @@ class RobotUser {
       case "gameStart":
         this.handleGameStart(event.game.id);
         break;
+      case "gameFinish":
+        this.handleGameFinish(event.game.id);
+        break;
       default:
         console.log("Unhandled event : " + JSON.stringify(event));
     }
   }
 
   handleGameStart(id) {
-    const game = new Game(this.api, this.account.data.username, this.player);
-    game.start(id);
+    this.games[id] = new Game(this.api, this.account.data.username, this.player);
+    this.games[id].start(id);
+  }
+
+  handleGameFinish(id) {
+    delete this.games[id];
   }
 
   async handleChallenge(challenge) {

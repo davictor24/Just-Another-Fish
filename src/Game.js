@@ -36,11 +36,6 @@ class Game {
   }
 
   handler(event) {
-    if (event.status != "created" && event.status != "started") {
-      console.log("Game finished");
-      this.engine.stop();
-    }
-
     switch (event.type) {
       case "chatLine":
         this.handleChatLine(event);
