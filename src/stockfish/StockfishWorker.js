@@ -1,4 +1,5 @@
 import stockfish from "stockfish";
+import fs from "fs";
 
 class StockfishWorker {
   constructor() {
@@ -10,8 +11,13 @@ class StockfishWorker {
   }
 
   start() {
-    this.setupHash()
-      .then(data => this.worker.postMessage("ucinewgame"))
+    this.setup()
+      .then(data => {
+        let book = fs.readFileSync(__dirname + '/komodo.bin');
+        this.worker.postMessage({book: book});
+        console.log("Opening book added");
+      })
+      .then(() => this.worker.postMessage("ucinewgame"))
       .then(() => console.log("Setup complete"));
   }
 
@@ -21,7 +27,7 @@ class StockfishWorker {
     console.log("Engine stopped");
   }
 
-  setupHash() {
+  setup() {
     return new Promise(resolve => { 
       this.worker.onmessage = data => {
         console.log(data);

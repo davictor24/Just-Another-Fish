@@ -47,9 +47,11 @@ class RobotUser {
   }
 
   handleGameFinish(id) {
-    delete this.games[id];
     this.engines[id].stop();
-    delete this.engines[id];
+    setTimeout(() => {
+      delete this.games[id];
+      delete this.engines[id];
+    }, 3000);
   }
 
   async handleChallenge(challenge) {
