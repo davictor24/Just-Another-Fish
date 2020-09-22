@@ -30,7 +30,7 @@ class StockfishWorker {
           resolve(data);
         }
       };
-      this.worker.postMessage("setoption name Hash value 64");
+      this.worker.postMessage("setoption name Hash value 32");
       this.worker.postMessage("isready");
     });
   }
