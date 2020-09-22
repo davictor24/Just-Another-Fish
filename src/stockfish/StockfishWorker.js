@@ -16,6 +16,7 @@ class StockfishWorker {
   }
 
   stop() {
+    this.worker.postMessage("stop");
     this.worker.postMessage("quit");
   }
 
