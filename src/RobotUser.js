@@ -43,11 +43,11 @@ class RobotUser {
     if (challenge.variant.key != "standard") {
       console.log("Declining non-standard challenge from " + challenge.challenger.id);
       const response = await this.api.declineChallenge(challenge.id);
-      console.log("Declined", response.data || response);
+      if (response != undefined) console.log("Declined", response.data || response);
     } else {
       console.log("Accepting challenge from " + challenge.challenger.id);
       const response = await this.api.acceptChallenge(challenge.id);
-      console.log("Accepted", response.data || response);
+      if (response != undefined) console.log("Accepted", response.data || response);
     }
   }
 
