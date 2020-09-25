@@ -53,6 +53,7 @@ class StockfishProcess {
       });
 
       this.process.stdin.write("setoption name Hash value 32\n");
+      this.process.stdin.write("setoption name Slow Mover value 20\n");
       this.process.stdin.write("setoption name Use NNUE value true\n");
       if (nnueFile) this.process.stdin.write(`setoption name EvalFile value ${nnueFile}\n`);
       this.process.stdin.write("setoption name Ponder value true\n");
