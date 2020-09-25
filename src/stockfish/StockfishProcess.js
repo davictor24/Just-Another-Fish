@@ -1,5 +1,5 @@
 import { spawn } from "child_process";
-// import fs from "fs";
+import fs from "fs";
 
 class StockfishProcess {
   constructor() {
@@ -44,9 +44,17 @@ class StockfishProcess {
         }
       };
 
+      let nnueFile;
+      fs.readdirSync(__dirname).some(file => {
+        if (file.match(/^.*\.nnue$/)) {
+          nnueFile = file;
+          return true;
+        }
+      });
+
       this.process.stdin.write("setoption name Hash value 32\n");
       this.process.stdin.write("setoption name Use NNUE value true\n");
-      this.process.stdin.write("setoption name EvalFile value nn-bbbbfff71045.nnue\n");
+      if (nnueFile) this.process.stdin.write(`setoption name EvalFile value ${nnueFile}\n`);
       this.process.stdin.write("setoption name Ponder value true\n");
       this.process.stdin.write("isready\n");
     });
