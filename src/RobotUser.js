@@ -1,5 +1,4 @@
 import Game from "./Game";
-import StockfishWorker from "./stockfish/StockfishWorker";
 
 /**
  * RobotUser listens for challenges and spawns Games on accepting.
@@ -14,7 +13,6 @@ class RobotUser {
     this.api = api;
     this.player = player;
     this.games = {}
-    this.engines = {}
   }
 
   async start() {
@@ -41,17 +39,13 @@ class RobotUser {
   }
 
   handleGameStart(id) {
-    this.engines[id] = new StockfishWorker();
-    this.games[id] = new Game(this.api, this.account.data.username, this.player, this.engines[id]);
+    this.games[id] = new Game(this.api, this.account.data.username, this.player);
     this.games[id].start(id);
   }
 
   handleGameFinish(id) {
-    this.engines[id].stop();
-    setTimeout(() => {
-      delete this.games[id];
-      delete this.engines[id];
-    }, 3000);
+    this.games[id].stop();
+    delete this.games[id];
   }
 
   async handleChallenge(challenge) {
