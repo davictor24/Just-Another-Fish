@@ -43,7 +43,7 @@ class StockfishProcess {
         }
       };
 
-      this.process.stdin.write("setoption name Hash value 32\n");
+      this.process.stdin.write("setoption name Hash value 64\n");
       this.process.stdin.write("setoption name Use NNUE value true\n");
       this.process.stdin.write("setoption name EvalFile value nn-bbbbfff71045.nnue\n");
       this.process.stdin.write("isready\n");
