@@ -46,7 +46,7 @@ class Game {
         break;
       case "gameFull":
         this.colour = this.playingAs(event);
-        this.playNextMove(event.state.moves, [event.wtime, event.btime], [event.winc, event.binc]);
+        this.playNextMove(event.state.moves, [event.state.wtime, event.state.btime], [event.state.winc, event.state.binc]);
         break;
       case "gameState":
         this.playNextMove(event.moves, [event.wtime, event.btime], [event.winc, event.binc]);
