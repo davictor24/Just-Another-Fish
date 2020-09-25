@@ -5,6 +5,7 @@ class StockfishProcess {
   constructor() {
     this.process = spawn(__dirname + "/stockfish");
     this.stdoutHandlers = {};
+    this.ponderMove = "";
 
     this.process.stdout.on("data", data => {
       console.log(data.toString());
@@ -43,29 +44,54 @@ class StockfishProcess {
         }
       };
 
-      this.process.stdin.write("setoption name Hash value 64\n");
+      this.process.stdin.write("setoption name Hash value 32\n");
       this.process.stdin.write("setoption name Use NNUE value true\n");
       this.process.stdin.write("setoption name EvalFile value nn-bbbbfff71045.nnue\n");
+      this.process.stdin.write("setoption name Ponder value true\n");
       this.process.stdin.write("isready\n");
     });
   }
 
   bestMove(moves, times, incs) {
-    return new Promise(resolve => { 
+    return new Promise(resolve => {
+      let expectedOutputCount = 1;
+      const startTime = new Date().getTime();
       const handlerKey = "bestMove";
       this.stdoutHandlers[handlerKey] = data => {
-        const regex = /bestmove (\w{4})/;
+        const regex = /bestmove (\w{4,})(?: ponder (\w{4,}))?/;
         const found = data.match(regex);
         if (found && found.length > 1) {
-          delete this.stdoutHandlers[handlerKey]
-          resolve(found[1]);
+          if (--expectedOutputCount != 0) return;
+
+          resolve(found[1].slice(0, 4));
+          delete this.stdoutHandlers[handlerKey];
+
+          if (found[2] == null) {
+            this.ponderMove = "";
+            return;
+          }
+
+          const delta = new Date().getTime() - startTime;
+          const whitePlayed = moves.length % 2 == 0;
+          const newWtime = whitePlayed ? times[0] - delta + incs[0] : times[0];
+          const newBtime = whitePlayed ? times[1] : times[1] - delta + incs[1];
+
+          this.process.stdin.write(`position startpos moves ${moves.join(" ")} ${found[1]} ${found[2]}\n`);
+          this.process.stdin.write(`go ponder wtime ${newWtime} btime ${newBtime} winc ${incs[0]} binc ${incs[1]}\n`);
+          this.ponderMove = found[2];
         }
       };
 
-      let positionCmd = "position startpos";
-      if (moves.length > 0) positionCmd += " moves " + moves.join(" ");
-      this.process.stdin.write(positionCmd + "\n");
-      this.process.stdin.write(`go wtime ${times[0]} btime ${times[1]} winc ${incs[0]} binc ${incs[1]}\n`);
+      if (moves[moves.length - 1] == this.ponderMove) {
+        this.process.stdin.write("ponderhit\n");
+      } else {
+        if (this.ponderMove != "") expectedOutputCount = 2;
+        this.process.stdin.write("stop\n");
+        let positionCmd = "position startpos";
+        if (moves.length > 0) positionCmd += " moves " + moves.join(" ");
+        this.process.stdin.write(positionCmd + "\n");
+        this.process.stdin.write(`go wtime ${times[0]} btime ${times[1]} winc ${incs[0]} binc ${incs[1]}\n`);
+      }
     });
   }
 }
