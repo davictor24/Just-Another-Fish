@@ -3,7 +3,7 @@ import { spawn } from "child_process";
 
 class StockfishProcess {
   constructor() {
-    this.process = spawn(__dirname + "/stockfish");
+    this.process = spawn("./polyglot"); // Engine wrapper for opening books
     this.stdoutHandlers = {};
     this.ponderMove = "";
 
